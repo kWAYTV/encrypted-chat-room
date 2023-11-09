@@ -17,7 +17,7 @@ class Client:
         self.rooms = {'CHAT': {}, 'PLUTO': {}}
         # Create a new socket for the server
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # connect to the server
+        # Bind the address to the server
         self.client.bind(self.address)
         # Create a logo for the server
         self.logger.create_logo("EC Server")
