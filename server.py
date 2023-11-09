@@ -3,18 +3,18 @@ from threading import Lock
 from kwslogger import Logger
 
 class Client:
-    def __init__(self):
+    def __init__(self, server: str, port: int, rooms: dict = {'CHAT': {}}, encoding_format: str ="utf-8"):
         self.logger = Logger()
         # lock for handling multiple clients
         self.lock = Lock()
         # An IPv4 address for the server with port.
-        self.server, self.port = '127.0.0.1', 8000
+        self.server, self.port = server, port
         # Address is stored as a tuple
         self.address = (self.server, self.port)
         # the format in which encoding and decoding will occur
-        self.encoding_format = "utf-8"
+        self.encoding_format = encoding_format
         # Lists that will contains all the clients/rooms connected to the server.
-        self.rooms = {'CHAT': {}, 'PLUTO': {}}
+        self.rooms = rooms
         # Create a new socket for the server
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Bind the address to the server
@@ -83,7 +83,7 @@ class Client:
             self.rooms[room].get(addr).send(message)
 
 if __name__ == '__main__':
-    client = Client()
+    client = Client(server="127.0.01", port="8000", rooms={'CHAT': {}, 'PLUTO': {}})
     try:
         client.start_chat()
     except KeyboardInterrupt:
